@@ -1,0 +1,31 @@
+class Solution {
+    public int maxProduct(String s) {
+        return helper(s,"","",0);
+    }
+
+    private int helper(String s, String a, String b, int i){
+            // base case if we have reached the end
+
+            if(i==s.length()){
+
+            if(a.length()==0 || b.length()==0) return Integer.MIN_VALUE;
+
+            for(int j =0;j<=a.length()/2;j++){
+                    if(a.charAt(j)!=a.charAt(a.length()-j-1))  return Integer.MIN_VALUE;
+            }
+                // if any check fails then return Integer.MN_VALUE;
+
+                   for(int j =0;j<=b.length()/2;j++){
+                    if(b.charAt(j)!=b.charAt(b.length()-j-1))  return Integer.MIN_VALUE;
+            }
+
+            // check if both the string are palindrome if they are return product of their length
+            return a.length()*b.length();
+            }
+
+            // three choices for each option
+     
+        return Math.max(helper(s, a+s.charAt(i),b,i+1),Math.max(helper(s,a,b+s.charAt(i),i+1),helper(s,a,b,i+1)));
+
+    }
+}
