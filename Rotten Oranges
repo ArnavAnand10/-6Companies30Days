@@ -1,0 +1,96 @@
+class Solution {
+    static class rottenPair{
+        int row;
+        int col;
+
+        rottenPair(int row, int col){
+            this.row = row;
+            this.col = col;
+        }
+    }
+
+
+  
+
+    public static int orangesRotting(int[][] grid) {
+
+        int total = 0;
+        int rottenOrangesC = 0;
+
+        boolean[][] visited = new boolean[grid.length][grid[0].length];
+        Queue<rottenPair> rottenOranges = new LinkedList<>();
+        int timeTaken = 0;
+        int freshOranges = 0;
+        for(int row =0; row<grid.length;row++){
+            for(int col =0;col<grid[row].length;col++){
+                if(grid[row][col]==2){
+                    visited[row][col] = true;
+                    rottenOranges.add(new rottenPair(row,col));
+                    rottenOrangesC++;
+                    total++;
+                }else if (grid[row][col]==1){
+                   
+                    total++;
+                }
+            }
+        }
+
+        if(rottenOranges.isEmpty() && total!=0){
+            return -1;
+        }
+
+        while(!rottenOranges.isEmpty()){
+            int size = rottenOranges.size();
+            boolean foundRottenOrange = false;
+
+            for(int i =0; i<size;i++){
+                rottenPair rotten = rottenOranges.remove();
+
+                // going in up direction;
+                if(rotten.row-1>=0 && !visited[rotten.row-1][rotten.col] && grid[rotten.row-1][rotten.col]==1){
+                    foundRottenOrange = true;
+                    visited[rotten.row-1][rotten.col] = true;
+                   
+                      rottenOrangesC++;
+;
+                    rottenOranges.add(new rottenPair(rotten.row-1,rotten.col));
+                }
+                // going in down direction , if it is valid
+                 if(rotten.row+1<grid.length && !visited[rotten.row+1][rotten.col] && grid[rotten.row+1][rotten.col]==1){
+                    foundRottenOrange = true;
+                    visited[rotten.row+1][rotten.col] = true;
+                  
+                    rottenOrangesC++;
+;
+                    rottenOranges.add(new rottenPair(rotten.row+1,rotten.col));
+                }
+                // going in left direction
+                 if(rotten.col-1>=0 && !visited[rotten.row][rotten.col-1] && grid[rotten.row][rotten.col-1]==1){
+                    foundRottenOrange = true;
+                    visited[rotten.row][rotten.col-1] = true;
+                   
+                      rottenOrangesC++;
+
+                    rottenOranges.add(new rottenPair(rotten.row,rotten.col-1));
+                }
+                // going in right direction
+               if(rotten.col+1<grid[0].length && !visited[rotten.row][rotten.col+1] && grid[rotten.row][rotten.col+1]==1){
+                    foundRottenOrange = true;
+                    visited[rotten.row][rotten.col+1] = true;
+                    rottenOrangesC++;
+
+                    rottenOranges.add(new rottenPair(rotten.row,rotten.col+1));
+                }
+
+
+
+            }
+            if(foundRottenOrange){
+                timeTaken++;
+            }
+
+        }
+        return total == rottenOrangesC ? timeTaken :-1;
+
+    }
+}
