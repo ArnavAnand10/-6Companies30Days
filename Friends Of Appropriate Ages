@@ -1,0 +1,38 @@
+class Solution {
+       public int numFriendRequests(int[] ages) {
+
+
+            Arrays.sort(ages);
+            int total =0;
+            int prev =-1;
+
+            for(int i = ages.length-1;i>=0;i--){
+                if(i!=ages.length-1 && ages[i]==ages[i+1]){
+                    total+=prev;
+                }else{
+                    double target = 0.5*ages[i] + 7;
+                    int res = getFriends(ages,i-1,target,i);
+                    prev = res;
+                    total+=res;
+                }
+            }
+            return total;
+
+        }
+        private int getFriends(int[] ages, int end, double target, int c) {
+            int start = 0;
+            while (start <= end) {
+                int mid = start + (end - start) / 2;
+                if ((ages[mid] * 1.0) <= target) {
+                    start = mid + 1;
+                } else {
+                    end = mid - 1;
+                }
+            }
+            return c-end-1;
+        }
+}
+
+        
+    
+    
